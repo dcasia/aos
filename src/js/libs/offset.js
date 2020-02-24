@@ -19,6 +19,11 @@ const offset = function(el) {
     top: _y,
     left: _x
   };
+
+//   const { top, left } = el.getBoundingClientRect()
+
+//   return { top, left }
+
 };
 
 export default offset;
