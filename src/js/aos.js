@@ -60,7 +60,7 @@ const initializeScroll = function initializeScroll() {
    */
   window.addEventListener(
     options.customScrollEvent || 'scroll',
-    throttle((event) => {
+    throttle(event => {
       handleScroll($aosElements, event);
     }, options.throttleDelay)
   );
@@ -188,7 +188,7 @@ const init = function init(settings) {
    */
   if (['DOMContentLoaded', 'load'].indexOf(options.startEvent) === -1) {
     // Listen to options.startEvent and initialize AOS
-    document.addEventListener(options.startEvent, function() {
+    window.addEventListener(options.startEvent, function() {
       refresh(true);
     });
   } else {

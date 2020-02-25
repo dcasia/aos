@@ -38,11 +38,15 @@ const fireEvent = (eventName, data) => {
  */
 const applyClasses = (el, top) => {
   const { options, position, node, data } = el;
+  const { disableAnimation } = options;
 
   const hide = () => {
     if (!el.animated) return;
 
-    removeClasses(node, options.animatedClassNames);
+    if (!disableAnimation) {
+      removeClasses(node, options.animatedClassNames);
+    }
+
     fireEvent('aos:out', node);
 
     if (el.options.id) {
@@ -55,7 +59,9 @@ const applyClasses = (el, top) => {
   const show = () => {
     if (el.animated) return;
 
-    addClasses(node, options.animatedClassNames);
+    if (!disableAnimation) {
+      addClasses(node, options.animatedClassNames);
+    }
 
     fireEvent('aos:in', node);
     if (el.options.id) {
@@ -81,9 +87,12 @@ const applyClasses = (el, top) => {
  * @return {void}
  */
 const handleScroll = ($elements, event) => {
-    $elements.forEach((el, i) => {
-        applyClasses(el, event && event.detail && event.detail.data || window.pageYOffset)
-    })
-}
+  $elements.forEach((el, i) => {
+    applyClasses(
+      el,
+      (event && event.detail && event.detail.data) || window.pageYOffset
+    );
+  });
+};
 
 export default handleScroll;

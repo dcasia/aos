@@ -8,6 +8,7 @@ const prepare = function($elements, options) {
     const mirror = getInlineOption(el.node, 'mirror', options.mirror);
     const once = getInlineOption(el.node, 'once', options.once);
     const id = getInlineOption(el.node, 'id');
+    const disableAnimation = getInlineOption(el.node, 'disable-animation');
     const customClassNames =
       options.useClassNames && el.node.getAttribute('data-aos');
 
@@ -28,7 +29,8 @@ const prepare = function($elements, options) {
       once,
       mirror,
       animatedClassNames,
-      id
+      id,
+      disableAnimation
     };
   });
 
