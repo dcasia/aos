@@ -201,12 +201,16 @@ var applyClasses = function applyClasses(el, top) {
       position = el.position,
       node = el.node,
       data = el.data;
+  var disableAnimation = options.disableAnimation;
 
 
   var hide = function hide() {
     if (!el.animated) return;
 
-    removeClasses(node, options.animatedClassNames);
+    if (!disableAnimation) {
+      removeClasses(node, options.animatedClassNames);
+    }
+
     fireEvent('aos:out', node);
 
     if (el.options.id) {
@@ -219,7 +223,9 @@ var applyClasses = function applyClasses(el, top) {
   var show = function show() {
     if (el.animated) return;
 
-    addClasses(node, options.animatedClassNames);
+    if (!disableAnimation) {
+      addClasses(node, options.animatedClassNames);
+    }
 
     fireEvent('aos:in', node);
     if (el.options.id) {
@@ -271,10 +277,6 @@ var offset = function offset(el) {
     top: _y,
     left: _x
   };
-
-  //   const { top, left } = el.getBoundingClientRect()
-
-  //   return { top, left }
 };
 
 /**
@@ -373,16 +375,34 @@ var getPositionOut = function getPositionOut(el, defaultOffset) {
 
 /* Clearing variables */
 
+var disable = function disable(el, options) {
+  el.node.removeAttribute('data-aos');
+  el.node.removeAttribute('data-aos-easing');
+  el.node.removeAttribute('data-aos-duration');
+  el.node.removeAttribute('data-aos-delay');
+  if (options.initClassName) {
+    el.node.classList.remove(options.initClassName);
+  }
+  if (options.animatedClassName) {
+    el.node.classList.remove(options.animatedClassName);
+  }
+};
+
 var prepare = function prepare($elements, options) {
   $elements.forEach(function (el, i) {
     var mirror = getInlineOption(el.node, 'mirror', options.mirror);
     var once = getInlineOption(el.node, 'once', options.once);
     var id = getInlineOption(el.node, 'id');
+    var disableAnimation = getInlineOption(el.node, 'disable-animation');
     var customClassNames = options.useClassNames && el.node.getAttribute('data-aos');
 
     var animatedClassNames = [options.animatedClassName].concat(customClassNames ? customClassNames.split(' ') : []).filter(function (className) {
       return typeof className === 'string';
     });
+
+    if (disableAnimation) {
+      disable(el, options);
+    }
 
     if (options.initClassName) {
       el.node.classList.add(options.initClassName);
@@ -397,7 +417,8 @@ var prepare = function prepare($elements, options) {
       once: once,
       mirror: mirror,
       animatedClassNames: animatedClassNames,
-      id: id
+      id: id,
+      disableAnimation: disableAnimation
     };
   });
 
@@ -492,7 +513,7 @@ var refreshHard = function refreshHard() {
   $aosElements = elements();
 
   if (isDisabled(options.disable) || isBrowserNotSupported()) {
-    return disable();
+    return disable$1();
   }
 
   refresh();
@@ -502,7 +523,7 @@ var refreshHard = function refreshHard() {
  * Disable AOS
  * Remove all attributes to reset applied styles
  */
-var disable = function disable() {
+var disable$1 = function disable() {
   $aosElements.forEach(function (el, i) {
     el.node.removeAttribute('data-aos');
     el.node.removeAttribute('data-aos-easing');
@@ -563,7 +584,7 @@ var init = function init(settings) {
    * or when browser is not supported
    */
   if (isDisabled(options.disable) || isBrowserNotSupported()) {
-    return disable();
+    return disable$1();
   }
 
   /**

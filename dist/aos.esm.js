@@ -371,6 +371,19 @@ var getPositionOut = function getPositionOut(el, defaultOffset) {
 
 /* Clearing variables */
 
+var disable = function disable(el, options) {
+  el.node.removeAttribute('data-aos');
+  el.node.removeAttribute('data-aos-easing');
+  el.node.removeAttribute('data-aos-duration');
+  el.node.removeAttribute('data-aos-delay');
+  if (options.initClassName) {
+    el.node.classList.remove(options.initClassName);
+  }
+  if (options.animatedClassName) {
+    el.node.classList.remove(options.animatedClassName);
+  }
+};
+
 var prepare = function prepare($elements, options) {
   $elements.forEach(function (el, i) {
     var mirror = getInlineOption(el.node, 'mirror', options.mirror);
@@ -382,6 +395,10 @@ var prepare = function prepare($elements, options) {
     var animatedClassNames = [options.animatedClassName].concat(customClassNames ? customClassNames.split(' ') : []).filter(function (className) {
       return typeof className === 'string';
     });
+
+    if (disableAnimation) {
+      disable(el, options);
+    }
 
     if (options.initClassName) {
       el.node.classList.add(options.initClassName);
@@ -492,7 +509,7 @@ var refreshHard = function refreshHard() {
   $aosElements = elements();
 
   if (isDisabled(options.disable) || isBrowserNotSupported()) {
-    return disable();
+    return disable$1();
   }
 
   refresh();
@@ -502,7 +519,7 @@ var refreshHard = function refreshHard() {
  * Disable AOS
  * Remove all attributes to reset applied styles
  */
-var disable = function disable() {
+var disable$1 = function disable() {
   $aosElements.forEach(function (el, i) {
     el.node.removeAttribute('data-aos');
     el.node.removeAttribute('data-aos-easing');
@@ -563,7 +580,7 @@ var init = function init(settings) {
    * or when browser is not supported
    */
   if (isDisabled(options.disable) || isBrowserNotSupported()) {
-    return disable();
+    return disable$1();
   }
 
   /**
@@ -616,19 +633,3 @@ var aos = {
 };
 
 export default aos;
-eDelay, true));
-
-  return $aosElements;
-};
-
-/**
- * Export Public API
- */
-
-var aos = {
-  init: init,
-  refresh: refresh,
-  refreshHard: refreshHard
-};
-
-module.exports = aos;
