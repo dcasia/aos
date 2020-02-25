@@ -197,12 +197,16 @@ var applyClasses = function applyClasses(el, top) {
       position = el.position,
       node = el.node,
       data = el.data;
+  var disableAnimation = options.disableAnimation;
 
 
   var hide = function hide() {
     if (!el.animated) return;
 
-    removeClasses(node, options.animatedClassNames);
+    if (!disableAnimation) {
+      removeClasses(node, options.animatedClassNames);
+    }
+
     fireEvent('aos:out', node);
 
     if (el.options.id) {
@@ -215,7 +219,9 @@ var applyClasses = function applyClasses(el, top) {
   var show = function show() {
     if (el.animated) return;
 
-    addClasses(node, options.animatedClassNames);
+    if (!disableAnimation) {
+      addClasses(node, options.animatedClassNames);
+    }
 
     fireEvent('aos:in', node);
     if (el.options.id) {
@@ -267,10 +273,6 @@ var offset = function offset(el) {
     top: _y,
     left: _x
   };
-
-  //   const { top, left } = el.getBoundingClientRect()
-
-  //   return { top, left }
 };
 
 /**
@@ -354,6 +356,7 @@ var getPositionIn = function getPositionIn(el, defaultOffset, defaultAnchorPlace
 };
 
 var getPositionOut = function getPositionOut(el, defaultOffset) {
+  var windowHeight = window.innerHeight;
   var anchor = getInlineOption(el, 'anchor');
   var additionalOffset = getInlineOption(el, 'offset', defaultOffset);
   var finalEl = el;
@@ -374,6 +377,7 @@ var prepare = function prepare($elements, options) {
     var mirror = getInlineOption(el.node, 'mirror', options.mirror);
     var once = getInlineOption(el.node, 'once', options.once);
     var id = getInlineOption(el.node, 'id');
+    var disableAnimation = getInlineOption(el.node, 'disable-animation');
     var customClassNames = options.useClassNames && el.node.getAttribute('data-aos');
 
     var animatedClassNames = [options.animatedClassName].concat(customClassNames ? customClassNames.split(' ') : []).filter(function (className) {
@@ -393,7 +397,8 @@ var prepare = function prepare($elements, options) {
       once: once,
       mirror: mirror,
       animatedClassNames: animatedClassNames,
-      id: id
+      id: id,
+      disableAnimation: disableAnimation
     };
   });
 
@@ -577,7 +582,7 @@ var init = function init(settings) {
    */
   if (['DOMContentLoaded', 'load'].indexOf(options.startEvent) === -1) {
     // Listen to options.startEvent and initialize AOS
-    document.addEventListener(options.startEvent, function () {
+    window.addEventListener(options.startEvent, function () {
       refresh(true);
     });
   } else {
