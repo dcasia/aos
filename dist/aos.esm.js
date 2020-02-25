@@ -356,7 +356,6 @@ var getPositionIn = function getPositionIn(el, defaultOffset, defaultAnchorPlace
 };
 
 var getPositionOut = function getPositionOut(el, defaultOffset) {
-  var windowHeight = window.innerHeight;
   var anchor = getInlineOption(el, 'anchor');
   var additionalOffset = getInlineOption(el, 'offset', defaultOffset);
   var finalEl = el;
@@ -582,7 +581,7 @@ var init = function init(settings) {
    */
   if (['DOMContentLoaded', 'load'].indexOf(options.startEvent) === -1) {
     // Listen to options.startEvent and initialize AOS
-    window.addEventListener(options.startEvent, function () {
+    document.addEventListener(options.startEvent, function () {
       refresh(true);
     });
   } else {
@@ -617,3 +616,19 @@ var aos = {
 };
 
 export default aos;
+eDelay, true));
+
+  return $aosElements;
+};
+
+/**
+ * Export Public API
+ */
+
+var aos = {
+  init: init,
+  refresh: refresh,
+  refreshHard: refreshHard
+};
+
+module.exports = aos;

@@ -5,7 +5,7 @@
   "homepage": "https://michalsnik.github.io/aos/",
   "author": "Michał Sajnóg <michal.sajnog@hotmail.com>",
   "license": "MIT",
-  "main": "dist/aos.esm.js",
+  "main": "dist/aos.cjs.js",
   "module": "dist/aos.esm.js",
   "browser": "dist/aos.js",
   "repository": {

@@ -188,7 +188,7 @@ const init = function init(settings) {
    */
   if (['DOMContentLoaded', 'load'].indexOf(options.startEvent) === -1) {
     // Listen to options.startEvent and initialize AOS
-    window.addEventListener(options.startEvent, function() {
+    document.addEventListener(options.startEvent, function() {
       refresh(true);
     });
   } else {
