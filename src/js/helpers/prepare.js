@@ -4,7 +4,7 @@ import { getPositionIn, getPositionOut } from './offsetCalculator';
 import getInlineOption from './getInlineOption';
 
 const disable = function(el, options) {
-  el.node.removeAttribute('data-aos');
+  el.node.setAttribute('data-aos', '');
   el.node.removeAttribute('data-aos-easing');
   el.node.removeAttribute('data-aos-duration');
   el.node.removeAttribute('data-aos-delay');   

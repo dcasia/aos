@@ -376,7 +376,7 @@ var getPositionOut = function getPositionOut(el, defaultOffset) {
 /* Clearing variables */
 
 var disable = function disable(el, options) {
-  el.node.removeAttribute('data-aos');
+  el.node.setAttribute('data-aos', '');
   el.node.removeAttribute('data-aos-easing');
   el.node.removeAttribute('data-aos-duration');
   el.node.removeAttribute('data-aos-delay');
