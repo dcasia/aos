@@ -43,9 +43,7 @@ const applyClasses = (el, top) => {
   const hide = () => {
     if (!el.animated) return;
 
-    if (!disableAnimation) {
-      removeClasses(node, options.animatedClassNames);
-    }
+    removeClasses(node, options.animatedClassNames);
 
     fireEvent('aos:out', node);
 
@@ -59,9 +57,7 @@ const applyClasses = (el, top) => {
   const show = () => {
     if (el.animated) return;
 
-    if (!disableAnimation) {
-      addClasses(node, options.animatedClassNames);
-    }
+    addClasses(node, options.animatedClassNames);
 
     fireEvent('aos:in', node);
     if (el.options.id) {
