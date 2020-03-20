@@ -352,6 +352,7 @@ var getPositionIn = function getPositionIn(el, defaultOffset, defaultAnchorPlace
 };
 
 var getPositionOut = function getPositionOut(el, defaultOffset) {
+  var windowHeight = window.innerHeight;
   var anchor = getInlineOption(el, 'anchor');
   var additionalOffset = getInlineOption(el, 'offset', defaultOffset);
   var finalEl = el;
