@@ -23,6 +23,7 @@ export const getPositionIn = (el, defaultOffset, defaultAnchorPlacement) => {
 
   if (anchor && document.querySelectorAll(anchor)) {
     finalEl = document.querySelectorAll(anchor)[0];
+    if (!finalEl) return 0
   }
 
   let triggerPoint = getOffset(finalEl).top - windowHeight;

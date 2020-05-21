@@ -318,6 +318,7 @@ var getPositionIn = function getPositionIn(el, defaultOffset, defaultAnchorPlace
 
   if (anchor && document.querySelectorAll(anchor)) {
     finalEl = document.querySelectorAll(anchor)[0];
+    if (!finalEl) return 0;
   }
 
   var triggerPoint = offset(finalEl).top - windowHeight;
