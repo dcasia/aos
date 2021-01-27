@@ -31,3 +31,5 @@ node_modules
 # Dev files to ignore
 cypress/screenshots
 cypress/videos
+
+dist
