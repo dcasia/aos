@@ -60,13 +60,14 @@ const initializeScroll = function initializeScroll() {
   /**
    * Handle scroll event to animate elements on scroll
    */
+  const eventName = options.customScrollEvent || 'scroll'
   if (currentScrollHandler) {
-    window.removeEventListener('scroll', currentScrollHandler)
+    window.removeEventListener(eventName, currentScrollHandler)
   }
-  currentScrollHandler = throttle(() => {
-    handleScroll($aosElements, options.once)
+  currentScrollHandler = throttle((event) => {
+    handleScroll($aosElements, event)
   }, options.throttleDelay)
-  window.addEventListener('scroll', currentScrollHandler)
+  window.addEventListener(eventName, currentScrollHandler)
 
   return $aosElements;
 };
